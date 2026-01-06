@@ -17,20 +17,26 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             overflow: hidden;
             font-family: 'Arial', sans-serif;
         }
 
-        /* Wadah Utama dengan Rasio 16:9 */
+        /* Wadah Utama dengan Rasio 16:9 yang Sempurna */
+        /* Logika ini memastikan rasio 16:9 selalu terjaga tanpa terpotong layar */
         .video-container {
             width: 100%;
-            max-width: 1280px; /* Lebar standar 720p, bisa disesuaikan ke 1920px untuk 1080p */
             aspect-ratio: 16 / 9;
+            /* Membatasi lebar berdasarkan tinggi layar agar tidak terlalu besar di monitor ultrawide */
+            max-width: 177.78vh; 
+            /* Membatasi tinggi agar tidak melebihi layar */
+            max-height: 100vh;
+            
             position: relative;
             overflow: hidden;
             background: #fff;
             box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            margin: auto;
         }
 
         /* Lapisan Sunburst */
@@ -38,56 +44,58 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            /* Ukuran harus lebih besar dari container agar saat berputar sudutnya tertutup */
+            /* Ukuran lebih besar dari container agar sudut tertutup saat berputar */
             width: 200%; 
             height: 200%;
             transform: translate(-50%, -50%);
             z-index: 1;
             
-            /* Membuat pola sinar menggunakan Conic Gradient */
+            /* Membuat pola sinar menggunakan Conic Gradient - TEMA BIRU LAUT */
             background: repeating-conic-gradient(
                 from 0deg,
-                #ffd700 0deg 15deg,  /* Warna Emas Terang */
-                #ffaa00 15deg 30deg  /* Warna Oranye Emas */
+                #00BFFF 0deg 15deg,  /* Biru Laut Terang (Deep Sky Blue) */
+                #1E90FF 15deg 30deg  /* Biru Laut Gelap (Dodger Blue) */
             );
 
-            /* Animasi Putaran */
+            /* Animasi Putaran Otomatis */
             animation: putar-sunburst 20s linear infinite;
         }
 
-        /* Efek Vignette & Glow (Memberikan kedalaman) */
+        /* Efek Vignette & Glow */
         .overlay-fx {
             position: absolute;
             inset: 0;
             z-index: 2;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,165,0,0.1) 40%, rgba(0,0,0,0.3) 100%);
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(0,191,255,0.1) 40%, rgba(0,0,0,0.3) 100%);
             pointer-events: none;
         }
 
         /* Waktu Bar (Progress Bar) */
         .time-bar-container {
             position: absolute;
-            bottom: 40px; /* Jarak sedikit dari tepi bawah agar estetik */
-            left: 50%;    /* Posisikan titik referensi di tengah */
-            transform: translateX(-50%); /* Geser elemen agar benar-benar di tengah */
-            width: 45%;   /* Lebar dikurangi menjadi setengah dari sebelumnya (90% -> 45%) */
-            height: 40px; /* Ukuran "Besar" */
-            background-color: rgba(0, 0, 0, 0.6); /* Latar belakang gelap transparan */
-            border-radius: 20px; /* Membuat sudut membulat */
-            border: 3px solid white; /* Garis tepi putih agar kontras */
+            bottom: 40px; 
+            left: 50%;    
+            transform: translateX(-50%); 
+            width: 45%;   /* Setengah ukuran lebar */
+            height: 40px; 
+            background-color: rgba(0, 0, 0, 0.6); 
+            border-radius: 20px; 
+            border: 3px solid white; 
             z-index: 10;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            /* Menghilang perlahan setelah delay 3 detik */
+            
+            /* Animasi Menghilang setelah 3 detik (+ delay sedikit agar pas) */
             animation: fade-out 0.5s ease-out 3s forwards;
         }
 
         .time-bar {
             height: 100%;
-            width: 100%; /* Mulai dari Penuh */
-            background-color: #4CAF50; /* Warna awal Hijau */
+            width: 100%; /* Mulai Penuh */
+            background-color: #4CAF50; /* Mulai Hijau */
             border-radius: 15px;
-            /* Durasi diubah menjadi 3 detik */
+            
+            /* Animasi Bar Mundur 3 Detik */
             animation: loading-time 3s linear forwards; 
         }
 
@@ -132,7 +140,7 @@
         <!-- Efek Bayangan/Cahaya -->
         <div class="overlay-fx"></div>
 
-        <!-- Bar Waktu Besar -->
+        <!-- Bar Waktu -->
         <div class="time-bar-container">
             <div class="time-bar"></div>
         </div>
