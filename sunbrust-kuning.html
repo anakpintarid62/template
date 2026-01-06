@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunburst 16:9 Animasi</title>
+    <style>
+        /* Reset dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Wadah Utama dengan Rasio 16:9 */
+        .video-container {
+            width: 100%;
+            max-width: 1280px; /* Lebar standar 720p, bisa disesuaikan ke 1920px untuk 1080p */
+            aspect-ratio: 16 / 9;
+            position: relative;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        /* Lapisan Sunburst */
+        .sunburst {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /* Ukuran harus lebih besar dari container agar saat berputar sudutnya tertutup */
+            width: 200%; 
+            height: 200%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            
+            /* Membuat pola sinar menggunakan Conic Gradient */
+            background: repeating-conic-gradient(
+                from 0deg,
+                #ffd700 0deg 15deg,  /* Warna Emas Terang */
+                #ffaa00 15deg 30deg  /* Warna Oranye Emas */
+            );
+
+            /* Animasi Putaran */
+            animation: putar-sunburst 20s linear infinite;
+        }
+
+        /* Efek Vignette & Glow (Memberikan kedalaman) */
+        .overlay-fx {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,165,0,0.1) 40%, rgba(0,0,0,0.3) 100%);
+            pointer-events: none;
+        }
+
+        /* Waktu Bar (Progress Bar) */
+        .time-bar-container {
+            position: absolute;
+            bottom: 40px; /* Jarak sedikit dari tepi bawah agar estetik */
+            left: 50%;    /* Posisikan titik referensi di tengah */
+            transform: translateX(-50%); /* Geser elemen agar benar-benar di tengah */
+            width: 45%;   /* Lebar dikurangi menjadi setengah dari sebelumnya (90% -> 45%) */
+            height: 40px; /* Ukuran "Besar" */
+            background-color: rgba(0, 0, 0, 0.6); /* Latar belakang gelap transparan */
+            border-radius: 20px; /* Membuat sudut membulat */
+            border: 3px solid white; /* Garis tepi putih agar kontras */
+            z-index: 10;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            /* Menghilang perlahan setelah delay 3 detik */
+            animation: fade-out 0.5s ease-out 3s forwards;
+        }
+
+        .time-bar {
+            height: 100%;
+            width: 100%; /* Mulai dari Penuh */
+            background-color: #4CAF50; /* Warna awal Hijau */
+            border-radius: 15px;
+            /* Durasi diubah menjadi 3 detik */
+            animation: loading-time 3s linear forwards; 
+        }
+
+        /* Keyframes Animasi */
+        @keyframes putar-sunburst {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        @keyframes loading-time {
+            0% { 
+                width: 100%; 
+                background-color: #4CAF50; /* Hijau */
+            }
+            60% {
+                background-color: #FFC107; /* Kuning */
+            }
+            100% { 
+                width: 0%; 
+                background-color: #FF0000; /* Merah */
+            } 
+        }
+
+        @keyframes fade-out {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-container">
+        <!-- Elemen Sunburst -->
+        <div class="sunburst"></div>
+        
+        <!-- Efek Bayangan/Cahaya -->
+        <div class="overlay-fx"></div>
+
+        <!-- Bar Waktu Besar -->
+        <div class="time-bar-container">
+            <div class="time-bar"></div>
+        </div>
+    </div>
+
+</body>
+</html>
